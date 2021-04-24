@@ -1,12 +1,13 @@
 package hellojpa;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
-import java.util.List;
+import javax.persistence.*;
 
-public class JpaMain {
+/*
+ *
+ * @author snow
+ * @since 2021/04/24
+ */
+public class Ex2JpaMain {
     public static void main(String[] args){
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello"); // 한번만 선언해야함
 
@@ -15,9 +16,16 @@ public class JpaMain {
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
         try {
-            Member member1 = em.find(Member.class, 101L); // 영속성 컨텍스트에 올려둠
-            Member member2 = em.find(Member.class, 101L);
-            System.out.println("result=" + (member1 == member2));
+            Member member1 = new Member(150L, "A");
+            Member member2 = new Member(160L, "B");
+            em.persist(member1);
+            em.persist(member2);
+
+            Member member3 = em.find(Member.class, 150L);
+            member3.setName("ZZZ");
+            
+            System.out.println("==================");
+
             transaction.commit();
         }catch(Exception e){
             transaction.rollback();
@@ -27,3 +35,5 @@ public class JpaMain {
         emf.close();
     }
 }
+
+
