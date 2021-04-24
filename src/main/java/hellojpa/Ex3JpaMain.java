@@ -1,13 +1,16 @@
 package hellojpa;
 
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
 
 /*
  *
  * @author snow
  * @since 2021/04/24
  */
-public class Ex2JpaMain {
+public class Ex3JpaMain {
     public static void main(String[] args){
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello"); // 한번만 선언해야함
 
@@ -16,13 +19,10 @@ public class Ex2JpaMain {
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
         try {
-            Member member3 = em.find(Member.class, 150L);
-            member3.setName("AAAA");
+            Member member = new Member(200L, "강");
+            em.persist(member);
+            em.flush(); // 플러시를 하더라도 1차 캐시는 남아있음.
 
-            // em.detach(member3); // 준영속 상태로 만듬.
-            em.clear(); // 영속성 컨텍스트 초기화
-
-            Member member4 = em.find(Member.class, 150L);
             System.out.println("==================");
 
             transaction.commit();
@@ -34,5 +34,3 @@ public class Ex2JpaMain {
         emf.close();
     }
 }
-
-
