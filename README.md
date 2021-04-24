@@ -1,1 +1,2 @@
-# jpa_challenge
+# jpa-example1
+jpa-example1
