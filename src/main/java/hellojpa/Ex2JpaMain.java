@@ -16,15 +16,6 @@ public class Ex2JpaMain {
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
         try {
-            Member member3 = em.find(Member.class, 150L);
-            member3.setName("AAAA");
-
-            // em.detach(member3); // 준영속 상태로 만듬.
-            em.clear(); // 영속성 컨텍스트 초기화
-
-            Member member4 = em.find(Member.class, 150L);
-            System.out.println("==================");
-
             transaction.commit();
         }catch(Exception e){
             transaction.rollback();
