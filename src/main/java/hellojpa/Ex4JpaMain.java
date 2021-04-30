@@ -20,11 +20,20 @@ public class Ex4JpaMain {
     transaction.begin();
     try {
         Member member = new Member();
-        member.setId(103L);
-        member.setUsername("김수수");
-        member.setRoleType(RoleType.GUEST);
-        em.persist(member);
 
+        Member member1 = new Member();
+
+        Member member2 = new Member();
+
+        System.out.println("==================");
+
+        em.persist(member); // 1, 51
+        em.persist(member1); // 2, 51
+        em.persist(member2); // 3, 51
+        // 어쩔수 없이 쿼리를 날려서 1차 캐시를 만든다.
+//        System.out.println(member.getId());
+//        System.out.println(member1.getId());
+//        System.out.println(member2.getId());
         System.out.println("==================");
 
         transaction.commit();

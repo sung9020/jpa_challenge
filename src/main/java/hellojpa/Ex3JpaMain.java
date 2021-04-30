@@ -19,9 +19,9 @@ public class Ex3JpaMain {
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
         try {
-            Member member = new Member(200L, "강");
-            em.persist(member);
-            em.flush(); // 플러시를 하더라도 1차 캐시는 남아있음.
+//            Member member = new Member(null, "강");
+//            em.persist(member);
+//            em.flush(); // 플러시를 하더라도 1차 캐시는 남아있음.
 
             System.out.println("==================");
 
