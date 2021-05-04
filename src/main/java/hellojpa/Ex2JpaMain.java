@@ -1,6 +1,7 @@
 package hellojpa;
 
 import javax.persistence.*;
+import java.util.List;
 
 /*
  *
@@ -21,14 +22,19 @@ public class Ex2JpaMain {
             em.persist(team); // 영속상태가 되어 id가 들어간다
 
             Member member = new Member();
-            member.setUsername("멤버");
-            member.setTeam(team);
+            member.setUsername("철수");
             em.persist(member);
 
-            em.flush(); // db에 준비된 쿼리를 날려서 사전 동기화 시킨다.
-            em.clear(); // 영속성 컨텍스트의 1차 캐시를 삭제한다. 
+            team.addMember(member);
 
-            Member findMember = em.find(Member.class, member.getId()); // 영속상태가 되엇기 때문에 추가 쿼리가 필요없다.
+            em.flush(); // db에 큐에 준비된 쿼리를 날려서 동기화 시킨다.
+            em.clear(); // 영속성 컨텍스트의 1차 캐시를 삭제한다.
+
+            Team findTeam = em.find(Team.class, team.getId()); // 1차 캐시
+            List<Member> members = findTeam.getMembers();
+            System.out.println("============");
+            System.out.println(findTeam.toString());
+            System.out.println("============");
             transaction.commit();
         }catch(Exception e){
             transaction.rollback();
