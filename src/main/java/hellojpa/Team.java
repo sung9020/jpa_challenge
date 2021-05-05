@@ -18,18 +18,17 @@ public class Team {
     private Long Id;
     private String name;
 
-    @OneToMany(mappedBy = "team") // 하위 엔티티에 team 필드와 매핑됩니다.
-    private List<Member> members = new ArrayList<>();
+//    @OneToMany(mappedBy = "team") // 하위 엔티티에 team 필드와 매핑됩니다.
+//    private List<Member> members = new ArrayList<>();
 
+    @OneToMany // 하위 엔티티에 team 필드와 매핑됩니다.
+    @JoinColumn(name = "team")
+    private List<Member> members = new ArrayList<>();
 
     public List<Member> getMembers() {
         return members;
     }
 
-    public void addMember(Member member){
-        member.setTeam(this);
-        members.add(member);
-    }
 
     public Long getId() {
         return Id;
@@ -47,12 +46,4 @@ public class Team {
         this.name = name;
     }
 
-    @Override
-    public String toString() {
-        return "Team{" +
-                "Id=" + Id +
-                ", name='" + name + '\'' +
-                ", members=" + members +
-                '}';
-    }
 }

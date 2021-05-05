@@ -25,8 +25,6 @@ public class Ex2JpaMain {
             member.setUsername("철수");
             em.persist(member);
 
-            team.addMember(member);
-
             em.flush(); // db에 큐에 준비된 쿼리를 날려서 동기화 시킨다.
             em.clear(); // 영속성 컨텍스트의 1차 캐시를 삭제한다.
 
