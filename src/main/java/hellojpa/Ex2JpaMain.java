@@ -1,6 +1,9 @@
 package hellojpa;
 
+import org.hibernate.Hibernate;
+
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /*
@@ -17,30 +20,83 @@ public class Ex2JpaMain {
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
         try {
-            Team team = new Team();
-            team.setName("소속팀");
-            em.persist(team); // 영속상태가 되어 id가 들어간다
+            Team team1 = new Team();
+            team1.setName("팀1");
+            em.persist(team1);
 
-            Member member = new Member();
-            member.setUsername("철수");
-            em.persist(member);
+            Team team2 = new Team();
+            team2.setName("팀2");
+            em.persist(team2);
 
-            em.flush(); // db에 큐에 준비된 쿼리를 날려서 동기화 시킨다.
-            em.clear(); // 영속성 컨텍스트의 1차 캐시를 삭제한다.
+            Member member1 = new Member();
+            member1.setUsername("회원1");
+            member1.setTeam(team1);
+            em.persist(member1);
 
-            Team findTeam = em.find(Team.class, team.getId()); // 1차 캐시
-            List<Member> members = findTeam.getMembers();
-            System.out.println("============");
-            System.out.println(findTeam.toString());
-            System.out.println("============");
+            Member member2 = new Member();
+            member2.setUsername("회원2");
+            member2.setTeam(team1);
+            em.persist(member2);
+
+            Member member3 = new Member();
+            member3.setUsername("회원3");
+            member3.setTeam(team2);
+            em.persist(member3);
+
+            em.flush();
+            em.clear();
+
+            String query = "select t From Team t";
+            // 즉시로딩 해버림.
+
+            List<Team> result = em.createQuery(query, Team.class)
+                    .setFirstResult(0)
+                    .setMaxResults(2)
+                    .getResultList();
+
+            System.out.println(result.size());
+            for (Team t: result){
+                System.out.println(t.getName() + " ");
+                for(Member m: t.getMembers()){
+                    System.out.println(m.getUsername());
+                }
+                //회원1, 팀a(sql),
+                //회원2, 팀a(1차캐시)
+                //회원3, 팀b(sql)
+            }
+
+//            em.detach(refMember);
+//            em.close();
+//            System.out.println(refMember.getUsername());
+//            System.out.println(emf.getPersistenceUnitUtil().isLoaded(refMember));
+//            System.out.println(refMember.getClass());
+//            Hibernate.initialize(refMember);
+//            Member findMember = em.find(Member.class, member1.getId());
+//            System.out.println(findMember.getClass()); // member
+//
+//            System.out.println(refMember == findMember);
             transaction.commit();
         }catch(Exception e){
             transaction.rollback();
+            e.printStackTrace();
         }finally {
             em.close();
         }
         emf.close();
     }
+    private static void printMember(Member member) {
+        String username = member.getUsername();
+        System.out.println(username);
+    }
+
+    private static void printMemberAndTeam(Member member){
+        String username =  member.getUsername();
+        System.out.println(username);
+        Team team = member.getTeam();
+        System.out.println(team.getName());
+    }
+
+
 }
 
 

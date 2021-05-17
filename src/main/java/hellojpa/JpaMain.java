@@ -15,9 +15,9 @@ public class JpaMain {
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
         try {
-            Member member1 = em.find(Member.class, 101L); // 영속성 컨텍스트에 올려둠
-            Member member2 = em.find(Member.class, 101L);
-            System.out.println("result=" + (member1 == member2));
+//            Member member1 = em.find(Member.class, 101L); // 영속성 컨텍스트에 올려둠
+//            Member member2 = em.find(Member.class, 101L);
+//            System.out.println("result=" + (member1 == member2));
             transaction.commit();
         }catch(Exception e){
             transaction.rollback();
