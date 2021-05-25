@@ -28,20 +28,20 @@ public class Ex2JpaMain {
             team2.setName("팀2");
             em.persist(team2);
 
-            Member member1 = new Member();
-            member1.setUsername("회원1");
-            member1.setTeam(team1);
-            em.persist(member1);
-
-            Member member2 = new Member();
-            member2.setUsername("회원2");
-            member2.setTeam(team1);
-            em.persist(member2);
-
-            Member member3 = new Member();
-            member3.setUsername("회원3");
-            member3.setTeam(team2);
-            em.persist(member3);
+//            Member member1 = new Member();
+//            member1.setUsername("회원1");
+//            member1.setTeam(team1);
+//            em.persist(member1);
+//
+//            Member member2 = new Member();
+//            member2.setUsername("회원2");
+//            member2.setTeam(team1);
+//            em.persist(member2);
+//
+//            Member member3 = new Member();
+//            member3.setUsername("회원3");
+//            member3.setTeam(team2);
+//            em.persist(member3);
 
             em.flush();
             em.clear();
@@ -54,16 +54,16 @@ public class Ex2JpaMain {
                     .setMaxResults(2)
                     .getResultList();
 
-            System.out.println(result.size());
-            for (Team t: result){
-                System.out.println(t.getName() + " ");
-                for(Member m: t.getMembers()){
-                    System.out.println(m.getUsername());
-                }
-                //회원1, 팀a(sql),
-                //회원2, 팀a(1차캐시)
-                //회원3, 팀b(sql)
-            }
+//            System.out.println(result.size());
+//            for (Team t: result){
+//                System.out.println(t.getName() + " ");
+//                for(Member m: t.getMembers()){
+//                    System.out.println(m.getUsername());
+//                }
+//                //회원1, 팀a(sql),
+//                //회원2, 팀a(1차캐시)
+//                //회원3, 팀b(sql)
+//            }
 
 //            em.detach(refMember);
 //            em.close();
@@ -84,18 +84,6 @@ public class Ex2JpaMain {
         }
         emf.close();
     }
-    private static void printMember(Member member) {
-        String username = member.getUsername();
-        System.out.println(username);
-    }
-
-    private static void printMemberAndTeam(Member member){
-        String username =  member.getUsername();
-        System.out.println(username);
-        Team team = member.getTeam();
-        System.out.println(team.getName());
-    }
-
 
 }
 

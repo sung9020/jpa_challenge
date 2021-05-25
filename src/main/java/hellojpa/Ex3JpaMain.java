@@ -23,7 +23,23 @@ public class Ex3JpaMain {
 //            em.persist(member);
 //            em.flush(); // 플러시를 하더라도 1차 캐시는 남아있음.
 
+            Child child1 = new Child();
+            Child child2 = new Child();
+
+            Parent parent = new Parent();
+            parent.addChild(child1);
+            parent.addChild(child2);
+
+            em.persist(parent); // 자식의 생명주기를 부모가 컨트롤함
+
+            em.flush();
+            em.clear();
+
             System.out.println("==================");
+
+            Parent findParent = em.find(Parent.class, parent.getId());
+            findParent.getChildren().remove(0);
+            //em.remove(findParent);
 
             transaction.commit();
         }catch(Exception e){
